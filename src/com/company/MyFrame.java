@@ -29,6 +29,11 @@ public class MyFrame {
          personalPanel.setBackground(new Color(111, 141, 179));
          personalPanel.setSize(525,100);
          personalPanel.setLocation(80,300);
+         // set Database container
+         JPanel dataPanel = new JPanel();
+         dataPanel.setBackground(new Color(224, 202, 88));
+         dataPanel.setSize(470,180);
+         dataPanel.setLocation(105,450);
 
 
 
@@ -39,6 +44,7 @@ public class MyFrame {
         frame.setResizable(false);
         frame.setSize(700,875);
         frame.setVisible(true);
+        frame.add(dataPanel);
         frame.add(personalPanel);
         frame.add(academicPanel);
         frame.add(titlePanel);
