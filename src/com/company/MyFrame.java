@@ -39,6 +39,7 @@ public class MyFrame {
          dataPanel.setLocation(105,450);
 
          //========================================================================================
+         // initialize JLabel
          JLabel title, mainAcademic, mainPersonal, mainSearch, mainStudentCheck, mainEmployeeCheck;
          // set titlePanel text
          title = new JLabel("TIP Database");
@@ -77,21 +78,61 @@ public class MyFrame {
          mainEmployeeCheck.setBounds(460,410,size.width,size.height);
          mainPanel.add(mainEmployeeCheck);
 
+         // initialize JCheckbox
+         JCheckBox btnStudentCheck, btnEmployeeCheck;
+         // set student JCheckbox
+         btnStudentCheck = new JCheckBox();
+         btnStudentCheck.setSelected(false);
+         btnStudentCheck.setBounds(415,417,15,10);
+         mainPanel.add(btnStudentCheck);
+         // set employee JCheckbox
+         btnEmployeeCheck = new JCheckBox();
+         btnEmployeeCheck.setSelected(false);
+         btnEmployeeCheck.setBounds(530,417,15,10);
+         mainPanel.add(btnEmployeeCheck);
+
+         // initialize Buttons
+         Button btnLoad, btnSave, btnDelete, btnReset;
+         // set Load Button
+         btnLoad = new Button("Load");
+         btnLoad.setFont(new Font("Bebas Neue",Font.PLAIN,14));
+         btnLoad.setBounds(80,630,110,30);
+         btnLoad.setBackground(new Color(224, 202, 88));
+         mainPanel.add(btnLoad);
+         // set Save Button
+         btnSave = new Button("Save");
+         btnSave.setFont(new Font("Bebas Neue",Font.PLAIN,14));
+         btnSave.setBounds(207,630,110,30);
+         btnSave.setBackground(new Color(224, 202, 88));
+         mainPanel.add(btnSave);
+         // set Delete Button
+         btnDelete = new Button("Delete");
+         btnDelete.setFont(new Font("Bebas Neue",Font.PLAIN,14));
+         btnDelete.setBounds(334,630,110,30);
+         btnDelete.setBackground(new Color(224, 202, 88));
+         mainPanel.add(btnDelete);
+         // set Reset Button
+         btnReset = new Button("Reset");
+         btnReset.setFont(new Font("Bebas Neue",Font.PLAIN,14));
+         btnReset.setBounds(460,630,110,30);
+         btnReset.setBackground(new Color(224, 202, 88));
+         mainPanel.add(btnReset);
+
 
          //======================================================================================
         // main frame
         JFrame frame = new JFrame();
-        frame.setTitle("TIP Agents");
+        frame.setTitle("TIP Database");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setSize(700,875);
-        frame.setVisible(true);
         frame.add(dataPanel);
         frame.add(personalPanel);
         frame.add(academicPanel);
         frame.add(titlePanel);
         frame.add(mainPanel);
         frame.add(secondPanel);
+        frame.setVisible(true);
 
 
 
