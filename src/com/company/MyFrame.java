@@ -2,15 +2,28 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MyFrame {
+public class MyFrame extends JComponent implements ActionListener {
+
+    //Returns Int of dimension calculation
+    public int getDimen(int val, double percentage) {
+        return (int) Math.round(val * percentage);
+    }
+    int heightMain = 800;
+    int widthMain = 650;
+
+    JTextField fNameTextField, lNameTextField, yrLvlTextField, ageTextField, gendTextField, progTextField;
+
+
 
      MyFrame(){
         // set containers
         JPanel mainPanel = new JPanel();
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainPanel.setBackground(new Color(54, 54, 94));
-        mainPanel.setBounds(15,15,650,800);
+        mainPanel.setBounds(15,15,widthMain,heightMain);
         // set second container
          JPanel secondPanel = new JPanel();
          secondPanel.setBackground(new Color(224, 202, 88));
@@ -20,18 +33,146 @@ public class MyFrame {
          titlePanel.setBackground(new Color(224, 202, 88));
          titlePanel.setSize(400,35);
          titlePanel.setLocation(140, 50);
+
+         int aContWidth = (int) Math.round(widthMain * .84);
+         int aContHeight = (int) Math.round(heightMain * .15);
          // set Academic container
-         JPanel academicPanel = new JPanel();
+         JPanel academicPanel = new JPanel(null);
          academicPanel.setBorder(BorderFactory.createLineBorder(Color.black));
          academicPanel.setBackground(new Color(111, 141, 179));
-         academicPanel.setSize(525,120);
+         academicPanel.setSize(aContWidth, aContHeight);
          academicPanel.setLocation(80,140);
+
+
+
+            //Academic Container Attributes
+            // ================================
+            // Editable Text
+            JTextField fNameTextField = new JTextField();
+            JTextField lNameTextField = new JTextField();
+            JTextField yrLvlTextField = new JTextField();
+            JTextField ageTextField = new JTextField();
+
+            String[] genderSelect = {"Male", "Female", "Other"};
+            JComboBox gendCombo = new JComboBox(genderSelect);
+
+            String[] progSelect = {"Computer Science", "IT" , "Information Systems", "Farm Management", "Architecture",
+            "Construction", "Multimedia", "Arts", "Industrial Design", "Adult Education", "Dentistry", "Health Studies",
+            "Philosophy"};
+            JComboBox progCombo = new JComboBox(progSelect);
+
+            //Static Text
+            JLabel fNameLabel = new JLabel();
+            JLabel lNameLabel = new JLabel();
+            JLabel yrLvlLabel = new JLabel();
+            JLabel ageLabel = new JLabel();
+            JLabel gendLabel = new JLabel();
+            JLabel progLabel = new JLabel();
+
+
+
+
+            int acTxtHeight = getDimen(aContHeight, .20);
+            int acTxtWidth = getDimen(aContWidth,.30);
+
+            //Text Field Manager
+            fNameTextField.setPreferredSize(new Dimension(20, 20));
+            fNameTextField.setFont(new Font("Consolas", Font.PLAIN, 15));
+            fNameTextField.setBounds(acTxtWidth - 50, 10, acTxtWidth, acTxtHeight);
+
+            lNameTextField.setPreferredSize(new Dimension(20, 20));
+            lNameTextField.setFont(new Font("Consolas", Font.PLAIN, 15));
+            lNameTextField.setBounds(acTxtWidth - 50, acTxtHeight + 20, acTxtWidth, acTxtHeight);
+
+            yrLvlTextField.setPreferredSize(new Dimension(20, 20));
+            yrLvlTextField.setFont(new Font("Consolas", Font.PLAIN, 15));
+            yrLvlTextField.setBounds(acTxtWidth - 50, acTxtHeight + 55, acTxtWidth, acTxtHeight);
+
+            ageTextField.setPreferredSize(new Dimension(20, 20));
+            ageTextField.setFont(new Font("Consolas", Font.PLAIN, 15));
+            ageTextField.setBounds((acTxtWidth * 2) + 40, 10, acTxtWidth, acTxtHeight);
+
+
+            gendCombo.setPreferredSize(new Dimension(20, 20));
+            gendCombo.setFont(new Font("Consolas", Font.PLAIN, 15));
+            gendCombo.setBounds((acTxtWidth * 2) + 40, acTxtHeight + 20, acTxtWidth, acTxtHeight);
+            gendCombo.setEditable(true);
+
+            progCombo.setPreferredSize(new Dimension(20, 20));
+            progCombo.setFont(new Font("Consolas", Font.PLAIN, 15));
+            progCombo.setBounds((acTxtWidth * 2) + 40, acTxtHeight + 55, acTxtWidth, acTxtHeight);
+            progCombo.setEditable(true);
+
+
+            //Label Manager
+            fNameLabel.setPreferredSize(new Dimension(20, 20));
+            fNameLabel.setText("First Name: ");
+            fNameLabel.setForeground(Color.WHITE);
+            fNameLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            fNameLabel.setBounds(20, 10, acTxtWidth, acTxtHeight);
+
+            lNameLabel.setPreferredSize(new Dimension(20, 20));
+            lNameLabel.setText("Last Name: ");
+            lNameLabel.setForeground(Color.WHITE);
+            lNameLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            lNameLabel.setBounds(20, acTxtHeight + 20, acTxtWidth, acTxtHeight);
+
+            yrLvlLabel.setPreferredSize(new Dimension(20, 20));
+            yrLvlLabel.setText("Year Level: ");
+            yrLvlLabel.setForeground(Color.WHITE);
+            yrLvlLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            yrLvlLabel.setBounds(20, acTxtHeight + 55, acTxtWidth, acTxtHeight);
+
+            ageLabel.setPreferredSize(new Dimension(20, 20));
+            ageLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            ageLabel.setText("Age: ");
+            ageLabel.setForeground(Color.WHITE);
+            ageLabel.setBounds(acTxtWidth * 2, 10, acTxtWidth, acTxtHeight);
+
+            gendLabel.setPreferredSize(new Dimension(20, 20));
+            gendLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            gendLabel.setText("Gender: ");
+            gendLabel.setForeground(Color.WHITE);
+            gendLabel.setBounds((acTxtWidth * 2) - 20, acTxtHeight + 20, acTxtWidth, acTxtHeight);
+
+            progLabel.setPreferredSize(new Dimension(20, 20));
+            progLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            progLabel.setText("Program: ");
+            progLabel.setForeground(Color.WHITE);
+            progLabel.setBounds((acTxtWidth * 2) - 25, acTxtHeight + 55, acTxtWidth, acTxtHeight);
+
+
+            // ================================
+            academicPanel.add(fNameTextField);
+            academicPanel.add(lNameTextField);
+            academicPanel.add(yrLvlTextField);
+            academicPanel.add(ageTextField);
+            academicPanel.add(gendCombo);
+            academicPanel.add(progCombo);
+
+            academicPanel.add(fNameLabel);
+            academicPanel.add(lNameLabel);
+            academicPanel.add(yrLvlLabel);
+            academicPanel.add(ageLabel);
+            academicPanel.add(gendLabel);
+            academicPanel.add(progLabel);
+
+
+
          // set Personal container
          JPanel personalPanel = new JPanel();
          personalPanel.setBorder(BorderFactory.createLineBorder(Color.black));
          personalPanel.setBackground(new Color(111, 141, 179));
          personalPanel.setSize(525,100);
          personalPanel.setLocation(80,300);
+
+            //Personal Container Attributes
+
+
+
+
+
+
          // set Database container
          JPanel dataPanel = new JPanel();
          dataPanel.setBackground(new Color(224, 202, 88));
@@ -134,6 +275,26 @@ public class MyFrame {
         frame.add(secondPanel);
         frame.setVisible(true);
 
+
+        //Action Listeners
+         fNameTextField.addActionListener( this);
+
+
+    }
+
+
+    //Put all Logic Here
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        String pass1 = fNameTextField.getText();
+        // Look at this link https://www.javatpoint.com/java-actionlistener
+        // NOTE !!!!!!!!!!!!!!!!!
+
+        if(e.getSource() != fNameTextField) {
+
+        }
+        else {
+        }
 
 
 
