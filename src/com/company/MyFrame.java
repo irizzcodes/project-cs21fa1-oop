@@ -1,6 +1,7 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -141,7 +142,7 @@ public class MyFrame extends JComponent implements ActionListener {
             progLabel.setForeground(Color.WHITE);
             progLabel.setBounds((acTxtWidth * 2) - 25, acTxtHeight + 55, acTxtWidth, acTxtHeight);
 
-
+            //ADD COMPONENTS
             // ================================
             academicPanel.add(fNameTextField);
             academicPanel.add(lNameTextField);
@@ -160,24 +161,180 @@ public class MyFrame extends JComponent implements ActionListener {
 
 
          // set Personal container
-         JPanel personalPanel = new JPanel();
+
+         int pContHeight = getDimen(heightMain, .15);
+         int pContWidth = getDimen(widthMain, .84);
+
+         int pTxtHeight = getDimen(pContHeight, .20);
+         int pTxtWidth = getDimen(pContWidth, .24);
+
+
+         JPanel personalPanel = new JPanel(null);
          personalPanel.setBorder(BorderFactory.createLineBorder(Color.black));
          personalPanel.setBackground(new Color(111, 141, 179));
-         personalPanel.setSize(525,100);
-         personalPanel.setLocation(80,300);
+         personalPanel.setSize(pContWidth,pContHeight);
+         personalPanel.setLocation(80, 300);
 
             //Personal Container Attributes
 
+            JLabel contInfoLabel = new JLabel();
+            JLabel birthLabel = new JLabel();
+            JLabel adrsLabel = new JLabel();
+            JLabel mommyLabel = new JLabel();
+            JLabel motherNumLabel = new JLabel();
+
+            JTextField contInfoText = new JTextField();
+            JTextField birthText = new JTextField();
+            JTextField adrsText = new JTextField();
+            JTextField mommyText = new JTextField();
+            JTextField  motherNumText = new JTextField();
+
+            //TEXT FIELD
+
+            birthText.setPreferredSize(new Dimension(20, 20));
+            birthText.setFont(new Font("Consolas", Font.PLAIN, 15));
+            birthText.setBounds(pTxtWidth + 20, 10, pTxtWidth, pTxtHeight);
+
+            adrsText.setPreferredSize(new Dimension(20, 20));
+            adrsText.setFont(new Font("Consolas", Font.PLAIN, 15));
+            adrsText.setBounds(pTxtWidth + 20, pTxtHeight + 20, pTxtWidth, pTxtHeight);
+
+            contInfoText.setPreferredSize(new Dimension(20, 20));
+            contInfoText.setFont(new Font("Consolas", Font.PLAIN, 15));
+            contInfoText.setBounds(pTxtWidth + 20, pTxtHeight + 55, pTxtWidth, pTxtHeight);
+
+            mommyText.setPreferredSize(new Dimension(20, 20));
+            mommyText.setFont(new Font("Consolas", Font.PLAIN, 15));
+            mommyText.setBounds((pTxtWidth * 2) + 150, 10, pTxtWidth, pTxtHeight);
+
+            motherNumText.setPreferredSize(new Dimension(20, 20));
+            motherNumText.setFont(new Font("Consolas", Font.PLAIN, 15));
+            motherNumText.setBounds((pTxtWidth * 2) + 150, pTxtHeight + 20, pTxtWidth, pTxtHeight);
+
+            //JLABEL
+
+            birthLabel.setPreferredSize(new Dimension(20, 20));
+            birthLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            birthLabel.setText("Birth Day: ");
+            birthLabel.setForeground(Color.WHITE);
+            birthLabel.setBounds(60, 10, acTxtWidth, acTxtHeight);
+
+            adrsLabel.setPreferredSize(new Dimension(20, 20));
+            adrsLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            adrsLabel.setText("Current Address: ");
+            adrsLabel.setForeground(Color.WHITE);
+            adrsLabel.setBounds(20, pTxtHeight + 20, acTxtWidth, acTxtHeight);
+
+            contInfoLabel.setPreferredSize(new Dimension(20, 20));
+            contInfoLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            contInfoLabel.setText("Contact Info: ");
+            contInfoLabel.setForeground(Color.WHITE);
+            contInfoLabel.setBounds(40, pTxtHeight + 55, acTxtWidth, acTxtHeight);
+
+            mommyLabel.setPreferredSize(new Dimension(20, 20));
+            mommyLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            mommyLabel.setText("Mothers Name: ");
+            mommyLabel.setForeground(Color.WHITE);
+            mommyLabel.setBounds((pTxtWidth * 2) + 47, 10, acTxtWidth, acTxtHeight);
+
+            motherNumLabel.setPreferredSize(new Dimension(20, 20));
+            motherNumLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+            motherNumLabel.setText("Mothers Number: ");
+            motherNumLabel.setForeground(Color.WHITE);
+            motherNumLabel.setBounds((pTxtWidth * 2) + 30, pTxtHeight + 20, acTxtWidth, acTxtHeight);
+
+                //ADD COMPONENTS
+            // ================================
+
+            personalPanel.add(birthText);
+            personalPanel.add(adrsText);
+            personalPanel.add(contInfoText);
+            personalPanel.add(mommyText);
+            personalPanel.add(motherNumText);
+
+            personalPanel.add(contInfoLabel);
+            personalPanel.add(adrsLabel);
+            personalPanel.add(birthLabel);
+            personalPanel.add(mommyLabel);
+            personalPanel.add(motherNumLabel);
 
 
 
+         // TABLE ATTR
+         //=====================================================================================
+
+         class ScrollableJTable extends  JPanel {
+             public ScrollableJTable() {
+                 initializeUI();
+             }
+
+             private void initializeUI() {
+                 //DefaultTableModel tableModel = new DefaultTableModel();
+
+                 String[] columnName = {"First Name", "Last Name", "Year Level", "Age", "Gender", "Test-VALUE", "Test-VALUE", "Test-VALUE", "Test-VALUE"};
+
+                 //DATA BASE HERE MAYBE
+                 Object[][] data = {
+                         {"Kathy", "Smith",
+                                 "Snowboarding", Integer.valueOf(5), false, false, false, false, false},
+                         {"John", "Doe",
+                                 "Rowing", Integer.valueOf(3), true, false, false, false, false},
+                         {"Sue", "Black",
+                                 "Knitting", Integer.valueOf(2), false, false, false, false, false},
+                         {"Jane", "White",
+                                 "Speed reading", Integer.valueOf(20), true, false, false, false, false},
+                         {"Joe", "Brown",
+                                 "Pool", Integer.valueOf(10),false, false, false, false, false}
+
+                 };
+
+                 setLayout(new BorderLayout());
+                 setPreferredSize(new Dimension(470, 180));
+
+                 JTable table = new JTable(data, columnName );
+
+
+
+                 // Turn off JTable's auto resize so that JScrollPane will show a horizontal
+                 // scroll bar.
+                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+                /* tableModel.addColumn("First Name");
+                 tableModel.addColumn("Last Name");
+                 tableModel.addColumn("Year Level");
+                 tableModel.addColumn("Age");
+                 tableModel.addColumn("Gender");
+                 tableModel.addColumn("Program");*/
+
+
+                 JScrollPane pane = new JScrollPane(table);
+                 add(pane, BorderLayout.CENTER);
+
+
+                 // ACTION LISTENER FOR CLICK CLICK
+                 table.addMouseListener(new java.awt.event.MouseAdapter(){
+                     @Override
+                     public void mouseClicked(java.awt.event.MouseEvent evt) {
+                         int row = table.rowAtPoint(evt.getPoint());
+                         int col = table.columnAtPoint(evt.getPoint());
+                         if (row >= 0 && col >= 0) {
+
+                                // GET POSITION HERE FOR TABLE
+                                // HERES A REFERENCE https://stackoverflow.com/questions/21158083/how-to-set-the-value-of-specific-cell-in-jtable
+                         }
+                     }
+                 });
+             }
+         }
 
 
          // set Database container
-         JPanel dataPanel = new JPanel();
+         JPanel dataPanel = new ScrollableJTable();
          dataPanel.setBackground(new Color(224, 202, 88));
          dataPanel.setSize(470,180);
          dataPanel.setLocation(105,450);
+
+
 
          //========================================================================================
          // initialize JLabel
@@ -218,6 +375,17 @@ public class MyFrame extends JComponent implements ActionListener {
          mainEmployeeCheck.setForeground(Color.WHITE);
          mainEmployeeCheck.setBounds(460,410,size.width,size.height);
          mainPanel.add(mainEmployeeCheck);
+
+
+                //SEARCH BOX TEXT FIELD
+
+         JTextField searchText = new JTextField();
+         searchText.setFont(new Font("Bebas Neue",Font.PLAIN,15));
+         searchText.setForeground(Color.WHITE);
+         searchText.setBounds(170,410,150,size.height);
+         mainPanel.add(searchText);
+
+
 
          // initialize JCheckbox
          JCheckBox btnStudentCheck, btnEmployeeCheck;
