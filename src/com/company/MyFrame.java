@@ -2,6 +2,7 @@ package com.company;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -264,10 +265,11 @@ public class MyFrame extends JComponent implements ActionListener {
          //=====================================================================================
 
          class ScrollableJTable extends  JPanel {
+
+             JTable table;
              public ScrollableJTable() {
                  initializeUI();
              }
-
              private void initializeUI() {
                  //DefaultTableModel tableModel = new DefaultTableModel();
 
@@ -291,13 +293,14 @@ public class MyFrame extends JComponent implements ActionListener {
                  setLayout(new BorderLayout());
                  setPreferredSize(new Dimension(470, 180));
 
-                 JTable table = new JTable(data, columnName );
 
 
+                 this.table = new JTable(data, columnName );
 
-                 // Turn off JTable's auto resize so that JScrollPane will show a horizontal
+
+                         // Turn off JTable's auto resize so that JScrollPane will show a horizontal
                  // scroll bar.
-                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                 this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
                 /* tableModel.addColumn("First Name");
                  tableModel.addColumn("Last Name");
@@ -307,12 +310,12 @@ public class MyFrame extends JComponent implements ActionListener {
                  tableModel.addColumn("Program");*/
 
 
-                 JScrollPane pane = new JScrollPane(table);
+                 JScrollPane pane = new JScrollPane(this.table);
                  add(pane, BorderLayout.CENTER);
 
 
                  // ACTION LISTENER FOR CLICK CLICK
-                 table.addMouseListener(new java.awt.event.MouseAdapter(){
+                 this.table.addMouseListener(new java.awt.event.MouseAdapter(){
                      @Override
                      public void mouseClicked(java.awt.event.MouseEvent evt) {
                          int row = table.rowAtPoint(evt.getPoint());
@@ -330,6 +333,9 @@ public class MyFrame extends JComponent implements ActionListener {
 
          // set Database container
          JPanel dataPanel = new ScrollableJTable();
+
+         JTable table = ((ScrollableJTable) dataPanel).table;
+
          dataPanel.setBackground(new Color(224, 202, 88));
          dataPanel.setSize(470,180);
          dataPanel.setLocation(105,450);
