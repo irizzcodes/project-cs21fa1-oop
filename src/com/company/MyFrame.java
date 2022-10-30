@@ -1,8 +1,11 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -300,8 +303,10 @@ public class MyFrame extends JComponent {
                  tableModel.addColumn("Program");*/
 
 
+
                  JScrollPane pane = new JScrollPane(this.table);
                  add(pane, BorderLayout.CENTER);
+                 this.table.setAutoCreateRowSorter(true);
 
 
                  // ACTION LISTENER FOR CLICK CLICK
@@ -377,7 +382,7 @@ public class MyFrame extends JComponent {
 
          JTextField searchText = new JTextField();
          searchText.setFont(new Font("Bebas Neue",Font.PLAIN,15));
-         searchText.setForeground(Color.WHITE);
+         searchText.setForeground(Color.BLACK);
          searchText.setBounds(170,410,150,size.height);
          mainPanel.add(searchText);
 
@@ -438,6 +443,38 @@ public class MyFrame extends JComponent {
         frame.add(mainPanel);
         frame.add(secondPanel);
         frame.setVisible(true);
+
+         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
+         table.setRowSorter(rowSorter);
+
+        searchText.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = searchText.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = searchText.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
 
 
         //Action Listeners
