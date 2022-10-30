@@ -6,6 +6,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class MyFrame extends JComponent {
 
@@ -449,38 +450,34 @@ public class MyFrame extends JComponent {
                  String firstname, lastname, gender, program, bday, curaddress, contactinf, mommyname, mommynum;
                  int yearlevel, age;
 
-                 if (!fNameTextField.getText().equals("")&&!lNameTextField.getText().equals("")&&!yrLvlTextField.getText().equals("")
-                         &&!ageTextField.getText().equals("")&&!gendTextField.getText().equals("")&&!progTextField.getText().equals("")
-                         &&!birthText.getText().equals("")&&!adrsText.getText().equals("")&&!contInfoText.getText().equals("")
-                         &&!mommyText.getText().equals("")&&!motherNumText.getText().equals("")){
-
-                             firstname = fNameTextField.getText();
-                             lastname = lNameTextField.getText();
-                             yearlevel = Integer.parseInt(yrLvlTextField.getText());
-                             age = Integer.parseInt(ageTextField.getText());
-                             gender = (String) gendCombo.getSelectedItem();
-                             program = (String) progCombo.getSelectedItem();
-                             bday = birthText.getText();
-                             curaddress = adrsText.getText();
-                             contactinf = contInfoText.getText();
-                             mommyname = mommyText.getText();
-                             mommynum = motherNumText.getText();
+                 if (!fNameTextField.getText().isEmpty()&&!lNameTextField.getText().isEmpty()&&!yrLvlTextField.getText().isEmpty() &&!ageTextField.getText().isEmpty()&&!Objects.equals(gendCombo.getSelectedItem(), "") &&!Objects.equals(progCombo.getSelectedItem(), "") &&!birthText.getText().isEmpty()&&!adrsText.getText().isEmpty()&&!contInfoText.getText().isEmpty() &&!mommyText.getText().isEmpty()&&!motherNumText.getText().isEmpty()){
+                        firstname = fNameTextField.getText();
+                        lastname = lNameTextField.getText();
+                        yearlevel = Integer.parseInt(yrLvlTextField.getText());
+                        age = Integer.parseInt(ageTextField.getText());
+                        gender = (String) gendCombo.getSelectedItem();
+                        program = (String) progCombo.getSelectedItem();
+                        bday = birthText.getText();
+                        curaddress = adrsText.getText();
+                        contactinf = contInfoText.getText();
+                        mommyname = mommyText.getText();
+                        mommynum = motherNumText.getText();
 
 
-                             Object data[]= {firstname,lastname, yearlevel, age,  gender, program, bday, curaddress, contactinf, mommyname,mommynum};
+                        Object data[]= {firstname,lastname, yearlevel, age,  gender, program, bday, curaddress, contactinf, mommyname,mommynum};
 
-                             DefaultTableModel tableMdl = (DefaultTableModel) table.getModel();
-                             tableMdl.addRow(data);
+                        DefaultTableModel tableMdl = (DefaultTableModel) table.getModel();
+                        tableMdl.addRow(data);
 
-                             fNameTextField.setText("");
-                             lNameTextField.setText("");
-                             yrLvlTextField.setText("");
-                             ageTextField.setText("");
-                             birthText.setText("");
-                             adrsText.setText("");
-                             contInfoText.setText("");
-                             mommyText.setText("");
-                             motherNumText.setText("");
+                        fNameTextField.setText("");
+                        lNameTextField.setText("");
+                        yrLvlTextField.setText("");
+                        ageTextField.setText("");
+                        birthText.setText("");
+                        adrsText.setText("");
+                        contInfoText.setText("");
+                        mommyText.setText("");
+                        motherNumText.setText("");
                  }else{
                      JOptionPane.showMessageDialog(mainPanel,"Please Fill All Needed Information First");
                  }
