@@ -2,11 +2,12 @@ package com.company;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MyFrame extends JComponent implements ActionListener {
+public class MyFrame extends JComponent {
 
     //Returns Int of dimension calculation
     public int getDimen(int val, double percentage) {
@@ -183,6 +184,8 @@ public class MyFrame extends JComponent implements ActionListener {
             JLabel mommyLabel = new JLabel();
             JLabel motherNumLabel = new JLabel();
 
+            //contInfoText, birthText, adrsText, mommyText,motherNumText
+
             JTextField contInfoText = new JTextField();
             JTextField birthText = new JTextField();
             JTextField adrsText = new JTextField();
@@ -264,40 +267,27 @@ public class MyFrame extends JComponent implements ActionListener {
          //=====================================================================================
 
          class ScrollableJTable extends  JPanel {
+
+             JTable table;
              public ScrollableJTable() {
                  initializeUI();
              }
-
              private void initializeUI() {
-                 //DefaultTableModel tableModel = new DefaultTableModel();
 
-                 String[] columnName = {"First Name", "Last Name", "Year Level", "Age", "Gender", "Test-VALUE", "Test-VALUE", "Test-VALUE", "Test-VALUE"};
-
-                 //DATA BASE HERE MAYBE
-                 Object[][] data = {
-                         {"Kathy", "Smith",
-                                 "Snowboarding", Integer.valueOf(5), false, false, false, false, false},
-                         {"John", "Doe",
-                                 "Rowing", Integer.valueOf(3), true, false, false, false, false},
-                         {"Sue", "Black",
-                                 "Knitting", Integer.valueOf(2), false, false, false, false, false},
-                         {"Jane", "White",
-                                 "Speed reading", Integer.valueOf(20), true, false, false, false, false},
-                         {"Joe", "Brown",
-                                 "Pool", Integer.valueOf(10),false, false, false, false, false}
-
-                 };
+                 int rowcount=0;
+                 String[] columnName = {"First Name", "Last Name", "Year Level", "Age", "Gender", "Program", "Birthday", "Current Address", "Contact Info", "Mother's Name", "Mother's Number"};
+                 TableModel tableModel = new DefaultTableModel(columnName, rowcount);
 
                  setLayout(new BorderLayout());
                  setPreferredSize(new Dimension(470, 180));
 
-                 JTable table = new JTable(data, columnName );
+
+                 this.table = new JTable(tableModel);
 
 
-
-                 // Turn off JTable's auto resize so that JScrollPane will show a horizontal
+                         // Turn off JTable's auto resize so that JScrollPane will show a horizontal
                  // scroll bar.
-                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                 this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
                 /* tableModel.addColumn("First Name");
                  tableModel.addColumn("Last Name");
@@ -307,12 +297,12 @@ public class MyFrame extends JComponent implements ActionListener {
                  tableModel.addColumn("Program");*/
 
 
-                 JScrollPane pane = new JScrollPane(table);
+                 JScrollPane pane = new JScrollPane(this.table);
                  add(pane, BorderLayout.CENTER);
 
 
                  // ACTION LISTENER FOR CLICK CLICK
-                 table.addMouseListener(new java.awt.event.MouseAdapter(){
+                 this.table.addMouseListener(new java.awt.event.MouseAdapter(){
                      @Override
                      public void mouseClicked(java.awt.event.MouseEvent evt) {
                          int row = table.rowAtPoint(evt.getPoint());
@@ -330,6 +320,9 @@ public class MyFrame extends JComponent implements ActionListener {
 
          // set Database container
          JPanel dataPanel = new ScrollableJTable();
+
+         JTable table = ((ScrollableJTable) dataPanel).table;
+
          dataPanel.setBackground(new Color(224, 202, 88));
          dataPanel.setSize(470,180);
          dataPanel.setLocation(105,450);
@@ -445,28 +438,55 @@ public class MyFrame extends JComponent implements ActionListener {
 
 
         //Action Listeners
-         fNameTextField.addActionListener( this);
+         btnLoad.addActionListener(new ActionListener(){
+             public void actionPerformed(ActionEvent e){
+                 //logic for Load here
+             }
+         });
+
+         btnSave.addActionListener(new ActionListener(){
+             public void actionPerformed(ActionEvent e){
+                 String firstname, lastname, gender, program;
+                 int yearlevel, age;
 
 
-    }
+                 firstname = fNameTextField.getText();
+                 lastname = lNameTextField.getText();
+                 yearlevel = Integer.parseInt(yrLvlTextField.getText());
+                 age = Integer.parseInt(ageTextField.getText());
+                 gender = (String) gendCombo.getSelectedItem();
+                 program = (String) progCombo.getSelectedItem();
+
+                 Object data[]= {firstname,lastname, yearlevel, age,  gender, program};
+
+                 DefaultTableModel tableMdl = (DefaultTableModel) table.getModel();
+                tableMdl.addRow(data);
 
 
-    //Put all Logic Here
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        String pass1 = fNameTextField.getText();
-        // Look at this link https://www.javatpoint.com/java-actionlistener
-        // NOTE !!!!!!!!!!!!!!!!!
-
-        if(e.getSource() != fNameTextField) {
-
-        }
-        else {
-        }
+                 System.out.println(firstname);
+                 System.out.println(lastname);
+                 System.out.println(yearlevel);
+                 System.out.println(age);
+                 System.out.println(gender);
+                 System.out.println(program);
 
 
+             }
+         });
 
-    }
+         btnDelete.addActionListener(new ActionListener(){
+             public void actionPerformed(ActionEvent e){
+                 //logic for Delete here
+             }
+         });
+
+         btnReset.addActionListener(new ActionListener(){
+             public void actionPerformed(ActionEvent e){
+                 //logic for Reset here
+             }
+         });
+
+     }
 
 }
 
