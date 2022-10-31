@@ -387,7 +387,6 @@ public class MyFrame extends JComponent {
          mainPanel.add(searchText);
 
 
-
          // initialize JCheckbox
          JCheckBox btnStudentCheck, btnEmployeeCheck;
          // set student JCheckbox
@@ -526,13 +525,25 @@ public class MyFrame extends JComponent {
 
          btnDelete.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent e){
-                 //logic for Delete here
-             }
-         });
+
+                 int selRow = table.getSelectedRow();
+                 if(selRow != -1) {
+                     DefaultTableModel model = (DefaultTableModel)table.getModel();
+                     model.removeRow(selRow);}
+
+         }});
 
          btnReset.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent e){
-                 //logic for Reset here
+                 fNameTextField.setText("");
+                 lNameTextField.setText("");
+                 yrLvlTextField.setText("");
+                 ageTextField.setText("");
+                 birthText.setText("");
+                 adrsText.setText("");
+                 contInfoText.setText("");
+                 mommyText.setText("");
+                 motherNumText.setText("");
              }
          });
 
