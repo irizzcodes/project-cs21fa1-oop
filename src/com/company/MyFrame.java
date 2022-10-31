@@ -62,12 +62,12 @@ public class MyFrame extends JComponent {
             JTextField ageTextField = new JTextField();
 
             String[] genderSelect = {"Male", "Female", "Other"};
-            JComboBox gendCombo = new JComboBox(genderSelect);
+            JComboBox<String> gendCombo = new JComboBox<>(genderSelect);
 
             String[] progSelect = {"Computer Science", "IT" , "Information Systems", "Farm Management", "Architecture",
             "Construction", "Multimedia", "Arts", "Industrial Design", "Adult Education", "Dentistry", "Health Studies",
             "Philosophy"};
-            JComboBox progCombo = new JComboBox(progSelect);
+            JComboBox<String> progCombo = new JComboBox<>(progSelect);
 
             //Static Text
             JLabel fNameLabel = new JLabel();
@@ -327,9 +327,9 @@ public class MyFrame extends JComponent {
 
 
          // set Database container
-         JPanel dataPanel = new ScrollableJTable();
+         ScrollableJTable dataPanel = new ScrollableJTable();
 
-         JTable table = ((ScrollableJTable) dataPanel).table;
+         JTable table = dataPanel.table;
 
          dataPanel.setBackground(new Color(224, 202, 88));
          dataPanel.setSize(470,180);
@@ -385,7 +385,6 @@ public class MyFrame extends JComponent {
          searchText.setForeground(Color.BLACK);
          searchText.setBounds(170,410,150,size.height);
          mainPanel.add(searchText);
-
 
 
          // initialize JCheckbox
@@ -503,7 +502,7 @@ public class MyFrame extends JComponent {
                         mommynum = motherNumText.getText();
 
 
-                        Object data[]= {firstname,lastname, yearlevel, age,  gender, program, bday, curaddress, contactinf, mommyname,mommynum};
+                        Object[] data = {firstname,lastname, yearlevel, age,  gender, program, bday, curaddress, contactinf, mommyname,mommynum};
 
                         DefaultTableModel tableMdl = (DefaultTableModel) table.getModel();
                         tableMdl.addRow(data);
@@ -526,13 +525,30 @@ public class MyFrame extends JComponent {
 
          btnDelete.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent e){
-                 //logic for Delete here
-             }
-         });
+
+                 int selRow = table.getSelectedRow();
+                 if(selRow != -1) {
+                     DefaultTableModel model = (DefaultTableModel)table.getModel();
+                     int result = JOptionPane.showConfirmDialog(mainPanel,"Are you sure?","Confirm",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                     if(result == JOptionPane.YES_OPTION)
+                        model.removeRow(selRow);
+                 }else
+                     JOptionPane.showMessageDialog(mainPanel,"Select a row in the table first");
+
+
+         }});
 
          btnReset.addActionListener(new ActionListener(){
              public void actionPerformed(ActionEvent e){
-                 //logic for Reset here
+                 fNameTextField.setText("");
+                 lNameTextField.setText("");
+                 yrLvlTextField.setText("");
+                 ageTextField.setText("");
+                 birthText.setText("");
+                 adrsText.setText("");
+                 contInfoText.setText("");
+                 mommyText.setText("");
+                 motherNumText.setText("");
              }
          });
 
