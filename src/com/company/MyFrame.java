@@ -529,7 +529,13 @@ public class MyFrame extends JComponent {
                  int selRow = table.getSelectedRow();
                  if(selRow != -1) {
                      DefaultTableModel model = (DefaultTableModel)table.getModel();
-                     model.removeRow(selRow);}
+                     int result = JOptionPane.showConfirmDialog(mainPanel,"Are you sure?","Confirm",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                     if(result == JOptionPane.YES_OPTION)
+                     model.removeRow(selRow);
+                     else{}
+                 }else
+                     JOptionPane.showMessageDialog(mainPanel,"Select a row in the table first");
+
 
          }});
 
