@@ -1,12 +1,19 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Objects;
 
-public class MyFrame extends JComponent implements ActionListener {
+public class MyFrame extends JComponent {
 
     //Returns Int of dimension calculation
     public int getDimen(int val, double percentage) {
@@ -183,6 +190,8 @@ public class MyFrame extends JComponent implements ActionListener {
             JLabel mommyLabel = new JLabel();
             JLabel motherNumLabel = new JLabel();
 
+            //contInfoText, birthText, adrsText, mommyText,motherNumText
+
             JTextField contInfoText = new JTextField();
             JTextField birthText = new JTextField();
             JTextField adrsText = new JTextField();
@@ -264,40 +273,27 @@ public class MyFrame extends JComponent implements ActionListener {
          //=====================================================================================
 
          class ScrollableJTable extends  JPanel {
+
+             JTable table;
              public ScrollableJTable() {
                  initializeUI();
              }
-
              private void initializeUI() {
-                 //DefaultTableModel tableModel = new DefaultTableModel();
 
-                 String[] columnName = {"First Name", "Last Name", "Year Level", "Age", "Gender", "Test-VALUE", "Test-VALUE", "Test-VALUE", "Test-VALUE"};
-
-                 //DATA BASE HERE MAYBE
-                 Object[][] data = {
-                         {"Kathy", "Smith",
-                                 "Snowboarding", Integer.valueOf(5), false, false, false, false, false},
-                         {"John", "Doe",
-                                 "Rowing", Integer.valueOf(3), true, false, false, false, false},
-                         {"Sue", "Black",
-                                 "Knitting", Integer.valueOf(2), false, false, false, false, false},
-                         {"Jane", "White",
-                                 "Speed reading", Integer.valueOf(20), true, false, false, false, false},
-                         {"Joe", "Brown",
-                                 "Pool", Integer.valueOf(10),false, false, false, false, false}
-
-                 };
+                 int rowcount=0;
+                 String[] columnName = {"First Name", "Last Name", "Year Level", "Age", "Gender", "Program", "Birthday", "Current Address", "Contact Info", "Mother's Name", "Mother's Number"};
+                 TableModel tableModel = new DefaultTableModel(columnName, rowcount);
 
                  setLayout(new BorderLayout());
                  setPreferredSize(new Dimension(470, 180));
 
-                 JTable table = new JTable(data, columnName );
+
+                 this.table = new JTable(tableModel);
 
 
-
-                 // Turn off JTable's auto resize so that JScrollPane will show a horizontal
+                         // Turn off JTable's auto resize so that JScrollPane will show a horizontal
                  // scroll bar.
-                 table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                 this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
                 /* tableModel.addColumn("First Name");
                  tableModel.addColumn("Last Name");
@@ -307,12 +303,14 @@ public class MyFrame extends JComponent implements ActionListener {
                  tableModel.addColumn("Program");*/
 
 
-                 JScrollPane pane = new JScrollPane(table);
+
+                 JScrollPane pane = new JScrollPane(this.table);
                  add(pane, BorderLayout.CENTER);
+                 this.table.setAutoCreateRowSorter(true);
 
 
                  // ACTION LISTENER FOR CLICK CLICK
-                 table.addMouseListener(new java.awt.event.MouseAdapter(){
+                 this.table.addMouseListener(new java.awt.event.MouseAdapter(){
                      @Override
                      public void mouseClicked(java.awt.event.MouseEvent evt) {
                          int row = table.rowAtPoint(evt.getPoint());
@@ -330,6 +328,9 @@ public class MyFrame extends JComponent implements ActionListener {
 
          // set Database container
          JPanel dataPanel = new ScrollableJTable();
+
+         JTable table = ((ScrollableJTable) dataPanel).table;
+
          dataPanel.setBackground(new Color(224, 202, 88));
          dataPanel.setSize(470,180);
          dataPanel.setLocation(105,450);
@@ -381,7 +382,7 @@ public class MyFrame extends JComponent implements ActionListener {
 
          JTextField searchText = new JTextField();
          searchText.setFont(new Font("Bebas Neue",Font.PLAIN,15));
-         searchText.setForeground(Color.WHITE);
+         searchText.setForeground(Color.BLACK);
          searchText.setBounds(170,410,150,size.height);
          mainPanel.add(searchText);
 
@@ -443,30 +444,136 @@ public class MyFrame extends JComponent implements ActionListener {
         frame.add(secondPanel);
         frame.setVisible(true);
 
+         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
+         table.setRowSorter(rowSorter);
+
+        searchText.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = searchText.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = searchText.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+
 
         //Action Listeners
-         fNameTextField.addActionListener( this);
+         btnLoad.addActionListener(new ActionListener(){
+             public void actionPerformed(ActionEvent e){
+                 //logic for Load here
+             }
+         });
+
+         btnSave.addActionListener(new ActionListener(){
+             public void actionPerformed(ActionEvent e){
+                 String firstname, lastname, gender, program, bday, curaddress, contactinf, mommyname, mommynum;
+                 int yearlevel, age;
+
+                 if (!fNameTextField.getText().isEmpty()&&!lNameTextField.getText().isEmpty()&&!yrLvlTextField.getText().isEmpty() &&!ageTextField.getText().isEmpty()&&!Objects.equals(gendCombo.getSelectedItem(), "") &&!Objects.equals(progCombo.getSelectedItem(), "") &&!birthText.getText().isEmpty()&&!adrsText.getText().isEmpty()&&!contInfoText.getText().isEmpty() &&!mommyText.getText().isEmpty()&&!motherNumText.getText().isEmpty()){
+                        firstname = fNameTextField.getText();
+                        lastname = lNameTextField.getText();
+                        yearlevel = Integer.parseInt(yrLvlTextField.getText());
+                        age = Integer.parseInt(ageTextField.getText());
+                        gender = (String) gendCombo.getSelectedItem();
+                        program = (String) progCombo.getSelectedItem();
+                        bday = birthText.getText();
+                        curaddress = adrsText.getText();
+                        contactinf = contInfoText.getText();
+                        mommyname = mommyText.getText();
+                        mommynum = motherNumText.getText();
 
 
-    }
+                        Object data[]= {firstname,lastname, yearlevel, age,  gender, program, bday, curaddress, contactinf, mommyname,mommynum};
+
+                        DefaultTableModel tableMdl = (DefaultTableModel) table.getModel();
+                        tableMdl.addRow(data);
+
+                        fNameTextField.setText("");
+                        lNameTextField.setText("");
+                        yrLvlTextField.setText("");
+                        ageTextField.setText("");
+                        birthText.setText("");
+                        adrsText.setText("");
+                        contInfoText.setText("");
+                        mommyText.setText("");
+                        motherNumText.setText("");
+                 }else{
+                     JOptionPane.showMessageDialog(mainPanel,"Please Fill All Needed Information First");
+                 }
+
+             }
+         });
+
+         btnDelete.addActionListener(new ActionListener(){
+             public void actionPerformed(ActionEvent e){
+                 //logic for Delete here
+             }
+         });
+
+         btnReset.addActionListener(new ActionListener(){
+             public void actionPerformed(ActionEvent e){
+                 //logic for Reset here
+             }
+         });
 
 
-    //Put all Logic Here
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        String pass1 = fNameTextField.getText();
-        // Look at this link https://www.javatpoint.com/java-actionlistener
-        // NOTE !!!!!!!!!!!!!!!!!
-
-        if(e.getSource() != fNameTextField) {
-
-        }
-        else {
-        }
 
 
+         yrLvlTextField.addKeyListener(new KeyAdapter() {
+             public void keyPressed(KeyEvent ke) {
+                 String value = yrLvlTextField.getText();
+                 int l = value.length();
+                 if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9'||(ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)) {
+                     yrLvlTextField.setEditable(true);
+                 } else {
+                     yrLvlTextField.setEditable(false);
+                 }
+             }
+         });
+         ageTextField.addKeyListener(new KeyAdapter() {
+             public void keyPressed(KeyEvent ke) {
+                 String value = ageTextField.getText();
+                 int l = value.length();
+                 if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9'||(ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)) {
+                     ageTextField.setEditable(true);
+                 } else {
+                     ageTextField.setEditable(false);
+                 }
+             }
+         });
+         motherNumText.addKeyListener(new KeyAdapter() {
+             public void keyPressed(KeyEvent ke) {
+                 String value = motherNumText.getText();
+                 int l = value.length();
+                 if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9'||(ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                     motherNumText.setEditable(true);
+                 } else {
+                     motherNumText.setEditable(false);
+                 }
+             }
+         });
 
-    }
+     }
 
 }
 
